@@ -85,27 +85,18 @@ dart 3*/
 
 //2.56.53
 //OOPS
-void main() {
-  print('${cookie().size} cm');
-  cookie().baking();
-  print(cookie().isbaking);
-  final check = cookie().isbaking();
-  print(check);
-}
+// void main() {
+//   print('${cookie().size} cm');
+//   cookie().baking();
+//   print(cookie().isbaking);
+//   final check = cookie().isbaking();
+//   print(check);
+//   //check = true; error bescauseb once alloted nothing can be changed
+//   final Cookie = cookie();
+//   print(Cookie.shape);
+//   Cookie.shape = 'Rectangle';//we didn't change Cookie because it is final we changed
+//   //we changed .shape
 
-class cookie {
-  //varaible
-  String shape = 'cirlce';
-  double size = 15.2;
-  //method
-  void baking() {
-    print("start baking");
-  }
-
-  bool isbaking() {
-    return false;
-  }
-}
 // print('${...} cm') 👉 String Interpolation and Output
 
 // The ${} syntax inside a string is called string interpolation. It's a clean way to insert the value of an expression directly into a string.
@@ -115,3 +106,32 @@ class cookie {
 // The final string becomes '15.2 cm'.
 
 // The print() function then displays this final string on the console.
+//   print(Cookie.shape);
+// }
+//3:07:3
+void main() {
+  print(cookie().shape);
+  cookie().shape = 'rectangle';
+  print(cookie().shape);
+  //both time circle because in ifrst line one object was made let obj1
+  //then in second again a new object was created but third line it was pointing
+  //to first object so two times.
+}
+
+class cookie {
+  //varaible
+  String shape = 'cirlce';
+  double size = 15.2;
+  //3:22:00 constructor
+  cookie(this.shape, this.size) {
+    baking();
+  }
+  //method
+  void baking() {
+    print("start baking");
+  }
+
+  bool isbaking() {
+    return false;
+  }
+}
