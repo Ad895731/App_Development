@@ -110,12 +110,17 @@ dart 3*/
 // }
 //3:07:3
 void main() {
-  print(cookie().shape);
-  cookie().shape = 'rectangle';
-  print(cookie().shape);
+  // print(cookie().shape);
+  // cookie().shape = 'rectangle';
+  // print(cookie().shape);
   //both time circle because in ifrst line one object was made let obj1
   //then in second again a new object was created but third line it was pointing
   //to first object so two times.
+  //final Cookie = cookie('hello', 10);
+  final Cookie = cookie();
+  print(Cookie._height);
+  Cookie.setheight = 15;
+  print(Cookie.height);
 }
 
 class cookie {
@@ -123,15 +128,29 @@ class cookie {
   String shape = 'cirlce';
   double size = 15.2;
   //3:22:00 constructor
-  cookie(this.shape, this.size) {
-    baking();
-  }
-  //method
-  void baking() {
-    print("start baking");
-  }
+  //parameterized constructor
+  // cookie(this.shape, this.size) {
+  //   baking();
+  // }
+  //named consturctor
+  // cookie.named(required this.shape,required this.shape){
+  //   baking();???????????
 
-  bool isbaking() {
-    return false;
+  //method
+  // void baking() {
+  //   print("start baking");
+  // }
+
+  // bool isbaking() {
+  //   return false;
+  // }
+  //private variable this can be accessed for file not for class like other
+  //language 3:26:00
+  int _height = 10;
+  //getter and setter is used to return a value
+  int get height => _height;
+  //Setters
+  set setheight(int h) {
+    _height = h;
   }
 }
