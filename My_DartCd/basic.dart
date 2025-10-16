@@ -109,48 +109,126 @@ dart 3*/
 //   print(Cookie.shape);
 // }
 //3:07:3
+// void main() {
+//   // print(cookie().shape);
+//   // cookie().shape = 'rectangle';
+//   // print(cookie().shape);
+//   //both time circle because in ifrst line one object was made let obj1
+//   //then in second again a new object was created but third line it was pointing
+//   //to first object so two times.
+//   //final Cookie = cookie('hello', 10);
+//   final Cookie = cookie();
+//   print(Cookie._height);
+//   Cookie.setheight = 15;
+//   print(Cookie.height);
+// }
+
+// class cookie {
+//   //varaible
+//   String shape = 'cirlce';
+//   double size = 15.2;
+//   //3:22:00 constructor
+//   //parameterized constructor
+//   // cookie(this.shape, this.size) {
+//   //   baking();
+//   // }
+//   //named consturctor
+//   // cookie.named(required this.shape,required this.shape){
+//   //   baking();???????????
+
+//   //method
+//   // void baking() {
+//   //   print("start baking");
+//   // }
+
+//   // bool isbaking() {
+//   //   return false;
+//   // }
+//   //private variable this can be accessed for file not for class like other
+//   //language 3:26:00
+//   int _height = 10;
+//   //getter and setter is used to return a value
+//   int get height => _height;
+//   //Setters
+//   set setheight(int h) {
+//     _height = h;
+//   }
+
+// 3:34:00;use of static
+//here you can see that construtor was not called by default and we can use data member direclty without creating an object this is where static is used
+// void main() {
+//   print(constant.a);
+// }
+
+// class constant {
+//   constant() {
+//     print('hii am Aditya');
+//   }
+//   static int a = 10;
+//   //static method
+//   static int value() {
+//     return 10;
+//   }
+// }
+//
+
+//Inheritance
+//object oriented programming
+// 1️⃣ vehicle Car = car();
+
+// You’re creating an object of type car,
+// but storing it in a variable of type vehicle.
+// 	•	Declared type (static type): vehicle
+// 	•	Runtime type: car
+
+// So at compile time, Dart only knows Car is a vehicle,
+// not that it’s a car.
+
+// ⸻
+
+// 2️⃣ print(Car.wheel); ❌
+
+// This gives an error because:
+// 	•	The class vehicle doesn’t have a property called wheel.
+// 	•	And since Car is declared as type vehicle, the Dart compiler refuses this — even though at runtime it would be a car.
+
+// Dart is statically typed, so it checks members based on the declared type at compile time, not the runtime type.
+
+// Hence:
+
+// ❌ The getter 'wheel' isn't defined for the class 'vehicle'.
+
+// ⸻
+
+// 3️⃣ print((Car as car).wheel); ✅
+
+// Here you are explicitly type casting Car to car.
+// 	•	(Car as car) tells Dart:
+// “Hey compiler, treat this object as a car, not just as a vehicle.”
+
+// Now Dart knows the object has a property wheel, because it’s a car.
+
+// Hence this line compiles and runs successfully.
 void main() {
-  // print(cookie().shape);
-  // cookie().shape = 'rectangle';
-  // print(cookie().shape);
-  //both time circle because in ifrst line one object was made let obj1
-  //then in second again a new object was created but third line it was pointing
-  //to first object so two times.
-  //final Cookie = cookie('hello', 10);
-  final Cookie = cookie();
-  print(Cookie._height);
-  Cookie.setheight = 15;
-  print(Cookie.height);
+  vehicle Car = car();
+  print(Car.speed);
+  //print(Car.wheel);
+  print((Car as car).wheel);
+  print((Car as truck).wheel);//type 'car' is not a subtype of type 'truck' in type cast
 }
 
-class cookie {
-  //varaible
-  String shape = 'cirlce';
-  double size = 15.2;
-  //3:22:00 constructor
-  //parameterized constructor
-  // cookie(this.shape, this.size) {
-  //   baking();
-  // }
-  //named consturctor
-  // cookie.named(required this.shape,required this.shape){
-  //   baking();???????????
-
-  //method
-  // void baking() {
-  //   print("start baking");
-  // }
-
-  // bool isbaking() {
-  //   return false;
-  // }
-  //private variable this can be accessed for file not for class like other
-  //language 3:26:00
-  int _height = 10;
-  //getter and setter is used to return a value
-  int get height => _height;
-  //Setters
-  set setheight(int h) {
-    _height = h;
+class vehicle {
+  int speed = 10;
+  bool isMucicOn = false;
+  void accelarate() {
+    speed += 10;
   }
+}
+
+class car extends vehicle {
+  int wheel = 4;
+}
+
+class truck {
+  int wheel = 6;
 }
