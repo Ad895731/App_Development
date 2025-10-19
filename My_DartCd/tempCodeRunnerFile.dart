@@ -1,13 +1,13 @@
-void main() {
-//   final stuff = printstuff();
-//   stuff();
-//   () {
-//     print('hiii');
-//   }();
-// }
+// void main() {
+// //   final stuff = printstuff();
+// //   stuff();
+// //   () {
+// //     print('hiii');
+// //   }();
+// // }
 
-// Function printstuff() {
-//   return () {
-//     print('hii');
-//   };
-// }
+// // Function printstuff() {
+// //   return () {
+// //     print('hii');
+// //   };
+// // }

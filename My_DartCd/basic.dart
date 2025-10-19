@@ -209,26 +209,177 @@ dart 3*/
 // Now Dart knows the object has a property wheel, because it’s a car.
 
 // Hence this line compiles and runs successfully.
+// void main() {
+//   vehicle Car = car();
+//   print(Car.speed);
+//   //print(Car.wheel);
+//   print((Car as car).wheel);
+//   print((Car as truck).wheel);//type 'car' is not a subtype of type 'truck' in type cast
+// }
+
+// class vehicle {
+//   int speed = 10;
+//   bool isMucicOn = false;
+//   void accelarate() {
+//     speed += 10;
+//   }
+// }
+
+// class car extends vehicle {
+//   int wheel = 4;
+// }
+
+// class truck {
+//   int wheel = 6;
+// }
+
+// // Override.
+// //dart automitaclly take inherited class not superclass but we use "@override"to use superclass method we use keyword "super"
+// void main() {
+//   vehicle Car = car();
+//   Car.accelerate();
+//   print(Car.speed);
+// }
+
+// class SomeClass {
+//   int speed = 15;
+//   //@override
+//   void accelerate() {
+//     speed += 15;
+//   }
+// }
+
+// class vehicle extends SomeClass {
+//   bool isMucicOn = false;
+//   @override//this will override above now it only required name should be same not return type.
+//   void accelerate() {
+//     speed += 100;
+//   }
+// }
+
+// class car extends vehicle {
+//   int wheel = 4;
+// }
+
+// class truck {
+//   int wheel = 6;
+// }
+
+//Implement
+//chatgpt learning
+// class A {
+//   void sayHello() {
+//     print("Hello from A");
+//   }
+// }
+
+// class B {
+//   void greet(); // abstract (no implementation)
+// }
+
+// class C extends A implements B {
+//   @override
+//   void greet() {
+//     print("Hi from C");
+//   }
+// }
+
+// void main() {
+//   C c = C();
+//   c.sayHello(); // Inherited from A
+//   c.greet();    // Implemented from B
+// }
+// What’s happening:
+// 	•	extends A → C gets all code from A.
+// So it can directly call sayHello().
+// 	•	implements B → C must define greet(),
+// because B is treated like an interface (no real implementation).
+
+// ⸻
+//Abstract class
+//my analysis before when we define normal class in case of of extned we does not required to define every method or member it's optional but in abstract it's MUST BE required with @override
+//
+
+// void main() {
+//   //   OOPS
+//   //   1.Polymorphism:- it alows objects of different classe sto be treated as object of common superclass.
+//     cat Cat = cat();
+//     Cat.sound();
+//     dog Dog = dog();
+//     Dog.sound();
+//   //2.Abstarction:-
+//   Animal anim = cat();
+//   Cat.sound();
+//   Animal anim2 = dog();
+//   Dog.sound();
+
+//   //3. Inheritance previous done
+//   //4.Encapsilation:-bunddling of data or method together as single unit it provide data protection and work on scurrity princpple /.capsule
+// }
+// // //for polmorphism:-
+// // class Animal {
+// //   void sound() {
+// //     print('Animal sound');
+// //   }
+// // }
+
+// // class cat extends Animal {
+// //   void sound() {
+// //     print('cat making sound');
+// //   }
+// // }
+
+// // class dog extends Animal {
+// //   void sound() {
+// //     print('dog sound');
+// //   }
+// // }
+
+//for Abstarction
+// void main() {
+//   Animal Cat = cat();
+//   Cat.sound();
+//   Animal Dog = dog();
+//   Dog.sound();
+// }
+
+// abstract class Animal {
+//   void sound();
+// }
+
+// class cat extends Animal {
+//   void sound() {
+//     print('cat making sound');
+//   }
+// }
+
+// class dog extends Animal {
+//   void sound() {
+//     print('dog sound');
+//   }
+// }
+
+// mixin and obejct
+// object is superclass for sting,char , int and other type if something is not defined in class and is working then it by default belong to "SUPERCLASS OBJECT";
 void main() {
-  vehicle Car = car();
-  print(Car.speed);
-  //print(Car.wheel);
-  print((Car as car).wheel);
-  print((Car as truck).wheel);//type 'car' is not a subtype of type 'truck' in type cast
+  //mixin
+  // mixes in
+  final anim = Animal();
+  anim.fn();
 }
 
-class vehicle {
-  int speed = 10;
-  bool isMucicOn = false;
-  void accelarate() {
-    speed += 10;
+mixin Jump {
+  int jumping = 10;
+}
+mixin Scream {
+  bool isScreaming = false;
+}
+
+class Animal with Jump, Scream {
+  void fn() {
+    print(jumping);
+    print(isScreaming);
   }
 }
 
-class car extends vehicle {
-  int wheel = 4;
-}
-
-class truck {
-  int wheel = 6;
-}
+//Class Modifier 4:33:00
