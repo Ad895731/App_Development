@@ -1,0 +1,2 @@
+To open documentation of dart:- press command and click on word.
+To remove whole widget with bracket use refractor and then wrap widget .

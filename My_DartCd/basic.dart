@@ -469,13 +469,193 @@
     'Key2':value2
     }
 */
-void main() {
-  Map<String, int> marks = {'ad': 10, 'va': 15, 'so': 30};
-  marks['an'] = 40; // add one by one
-  marks.addAll({'bt': 50, 'mi': 60, 'pa': 70});
-  marks.remove('ad');
-  //print(marks);
-  marks.forEach((key, val) {
-    print('$key:$val');
-  });
-}
+// void main() {
+//   Map<String, int> marks = {'ad': 10, 'va': 15, 'so': 30};
+//   marks['an'] = 40; // add one by one
+//   marks.addAll({'bt': 50, 'mi': 60, 'pa': 70});
+//   marks.remove('ad');
+//   //print(marks);
+//   marks.forEach((key, val) {
+//     print('$key:$val');
+//   });
+// }
+
+// //5:45:00 LIST OF MAP:-
+// void main() {
+//   Map<String, int> user1 = {'math': 20, 'eng': 16, 'cse': 14};
+//   List<Map<String, int>> marks = [
+//     {'math': 20, 'eng': 15, 'cse': 20},
+//     {'math': 15, 'eng': 20, 'cse': 14},
+//     user1,
+//   ];
+//   // marks.map((t) {
+//   //   print(t);
+//   // }).toList();
+//   marks.map((t) {
+//     t.forEach((key, val){
+//       print('$key : $val');
+//     });
+//   }).toList();
+// }
+
+// //5:50:00 Enums:-
+// void main() {
+//   final emply1 = Emply('ad', Emply_type.swe);
+//   final emply2 = Emply('va', Emply_type.finance);
+//   final emply3 = Emply('so', Emply_type.marketing);
+//   emply1.fn();
+//   emply1.fnq();
+//   emply2.fn();
+// }
+
+// enum Emply_type {
+//   swe(40000),
+//   finance(40000),
+//   marketing(30000);
+
+//   final int salary;
+//   const Emply_type(this.salary);
+// }
+
+// class Emply {
+//   final String name;
+//   final Emply_type type;
+//   Emply(this.name, this.type);
+
+//   void fn() {
+//     switch (type) {
+//       case Emply_type.swe:
+//         print('software enginner');
+//         print(type.salary);
+//       case Emply_type.finance:
+//         print('finance');
+//       case Emply_type.marketing:
+//         print('marketing');
+//     }
+//   }
+//     void fnq() {
+//       print('${type.name} ${type.salary}');
+//     }
+// }
+//6:00:00
+// void main() {
+//   //Exception Handling
+//   print(10 ~/ 3);
+//   // 10/3 = 3.333->3
+//   print(10 / 0);
+//   try {
+//     print(10 ~/ 0);
+//   } on Exception catch (e) {
+//     print(e);
+//   } catch (t) {
+//     print('error occur');
+//   } finally {
+//     print('finaly done');
+//   }
+//   print('Rivan');
+// }
+// //6:11:00
+// // futures (promises)
+// void main() async {
+//   print('ad');
+//   // final result = await giveAresultAfter2sec();
+//   // print(result);
+//   giveAresultAfter2sec().then((v) {
+//     print(v);
+//   });
+//   print('hey');
+// }
+
+// Future<String> giveAresultAfter2sec() {
+//   // return Future(() {
+//   //   return 'hey!!!';
+//   // });
+//   return Future.delayed(Duration(seconds: 2), () async {
+//     return 'hey!!!';
+//   });
+// }
+
+// // Feching data from dart package
+// //6:40:00
+// import 'package:http/http.dart' as http;
+// //here it is giving string and we want it in map format so we use import 'dart:convert';and jsondecode in print.
+// import 'dart:convert';
+
+// void main() async {
+//   var url = Uri.https('jsonplaceholder.typicode.com', 'users/1');
+//   // one thingh to be noted that if you are using async , await then do not use 'then' because are doing same thing so use one
+//   final res = await http.get(url);
+//   print(jsonDecode(res.body)['name']);
+// }
+
+//6:55:00
+//another asyncrones progeamming is Streams
+// here we keep get updated from user not like future where we send request and get data
+import 'dart:async';
+
+// void main() async {
+//   // Streams
+//   countDown().listen(
+//     (v) {
+//       print(v);
+//     },
+//     onDone: () {
+//       print('completed');
+//     },
+//   );
+//   //it print frist because it is not a asynchronous generator after that uper part will get printed.
+//   await Future.delayed(Duration(seconds: 3));
+//   print('Hey');
+// }
+
+// Stream<int> countDown() async* {
+//   // for (int i = 5; i > 0; i--) {
+//   //   //here we used async* so we can not use return because async say hey yiu alredy used stream as return and you are again returning
+//   //   yield i;
+//   //   //makes delay 1 seconds in between to print from 5 to 1;
+//   //   await Future.delayed(Duration(seconds: 1));
+//   // }
+
+//   final controller = StreamController<int>();
+//   controller.sink.add(1);
+//   controller.sink.add(2);
+//   controller.sink.add(3);
+//   await Future.delayed(Duration(seconds: 3));
+//   controller.sink.add(4);
+//   controller.stream.listen((val) {
+//     print(val);
+//   });
+// }
+
+//7:23:00
+//Records:- are real value you can store them in variable , pass them to and from functions and store them in list.
+// void main() {
+//   // final records = (4.5, greeting: 'Hi', isAdilt: true);
+//   // print(records.$1);
+//   // print(records.isAdilt);
+
+//   //   ({int a, int b, int c}) point = (a: 1, b: 2, c: 3);
+//   //   ({int x, int y, int z}) color = (x: 5, y: 6, z: 7);
+//   //   if (point == color) {
+//   //     print(color);
+//   //   } else {
+//   //     print(point);
+//   //   }
+
+//   // final list = [1, 2, 3, 4, 5, 6];
+//   // //_ means leave that value nad ... means including them leave and raech last
+//   // final [a, _, c, ..., d] = list;
+//   // print('$a $c $d');
+
+//   int page = 0;
+//   int lastpage = 1;
+//   final text = switch (lastpage) {
+//     0 => '1st one',
+//     //1 => '2nd one',
+//     // _ is a default case
+//     _ => 'none',
+//   };
+//   print(text);
+// }
+
+
