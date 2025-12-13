@@ -1,8 +1,11 @@
 //impoRted currency...
 // import 'package:currency_converter/pages/currency_converter_materialapp.dart';
 //Realtive importing
+import 'package:currency_converter/currency_converte_cupertino_page.dart';
+
 import 'currency_converter_materialapp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/Cupertino.dart';
 //import 'package:flutter/cupertino.dart'; for apple design
 
 //here material.dart is impoted which help to use keyword like runApp
@@ -10,7 +13,7 @@ import 'package:flutter/material.dart';
 void main() {
   //we remove text and added my app because now we can make change in myapp abstsract class which break app in small part and easy to manage
   // we use const because myapp is stateless widget and its data will not change
-  runApp(const MyApp());
+  runApp(const MycupertinoApp());
 }
 
 //Types of widgets
@@ -41,6 +44,16 @@ class MyApp extends StatelessWidget {
       //     child: Text('i am aditya!!'), //Text('Hello World!')));
       //   ),
       // ),
+    );
+  }
+}
+
+class MycupertinoApp extends StatelessWidget {
+  const MycupertinoApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const CupertinoApp(home: CurrencyConverterCupertinoPage(),
     );
   }
 }

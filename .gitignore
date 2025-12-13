@@ -44,3 +44,31 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 FlutterCourseMerged.mp4
+# Do not track personal folders
+Impo PDF/
+FlutterCourseMerged.mp4
+some_more/
+
+# Do not track temp files
+*.pdf.txt
+*tempCodeRunnerFile.dart
+
+# Do not track secrets
+weather_app/lib/secrets.dart
+currency_converter/lib/secrets.dart
+
+# macOS system files
+.DS_Store
+
+# VS Code settings (optional)
+.vscode/
+.idea/
+
+# Flutter build dirs (ignore all build folders inside all projects)
+**/build/
+
+# Flutter generated files
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.packages

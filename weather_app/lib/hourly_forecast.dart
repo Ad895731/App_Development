@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 
 class HourlyForcast extends StatelessWidget {
   final String time;
-  final String temprautre;
+  final String temperature;
   final IconData icon;
   const HourlyForcast({
     super.key,
     required this.time,
-    required this.temprautre, required this.icon,
+    required this.temperature,
+    required this.icon,
   });
 
   @override
@@ -36,10 +37,12 @@ class HourlyForcast extends StatelessWidget {
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Icon(icon, size: 30),
                     SizedBox(height: 5),
-                    Text(temprautre, style: TextStyle(fontSize: 15)),
+                    Text(temperature, style: TextStyle(fontSize: 15)),
                   ],
                 ),
               ),

@@ -4,18 +4,28 @@ import 'package:flutter/material.dart';
 //statefull widget uses const so it cannot be called simply and evrry time your UI got change to create. this we need to extend to state so that when any change occur state should be called not widget
 class CurrencyConverterMaterialpage extends StatefulWidget {
   const CurrencyConverterMaterialpage({super.key});
+
   @override
   //for improvement we will use <T>
-  State<CurrencyConverterMaterialpage> createState() =>/*it's block not an arrow ??*/  _Currencyconvertermaterialpagestate();
+  State<CurrencyConverterMaterialpage> createState() {
+    /*it's block not an arrow(=>)*/
+    return _Currencyconvertermaterialpagestate();
+  }
 }
 
-class _Currencyconvertermaterialpagestate extends State<CurrencyConverterMaterialpage>  {
+class _Currencyconvertermaterialpagestate
+    extends State<CurrencyConverterMaterialpage> {
+  double result = 0;
+  final TextEditingController textEditingController = TextEditingController();
+  @override
+   void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
   @override
   //   //build function use only to write simple variable and function not like timer or complex code
   Widget build(BuildContext context) {
     //we need to write variable here because here varibale can change in function outside it's stateless so immutable
-    double result = 0;
-    final TextEditingController textEditingController = TextEditingController();
     //created a border funtion
     final border = const OutlineInputBorder(
       //Border Work
@@ -49,29 +59,23 @@ class _Currencyconvertermaterialpagestate extends State<CurrencyConverterMateria
         // ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              //difference between margin and paddling
-              padding: const EdgeInsetsGeometry.all(6),
-              // margin:  const EdgeInsets.all(5),
-              //color: Colors.amber,
-              child: Text(
-                result.toString(),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '₹${result.toStringAsFixed(2)}',
                 style: const TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
                   color: Color.fromARGB(255, 187, 84, 76),
                 ),
               ),
-            ),
-            //padding:- when want margin for textfield as it does not come under property of textfield double click->refractor->wrap with padding (text field)
-            //container:- big brother of padding , conatain mainy property
-            //Padding(
-            Container(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-              child: TextField(
+              //padding:- when want margin for textfield as it does not come under property of textfield double click->refractor->wrap with padding (text field)
+              //container:- big brother of padding , conatain mainy property
+              //Padding(
+              TextField(
                 controller: textEditingController,
                 keyboardType: const TextInputType.numberWithOptions(
                   signed: false,
@@ -103,16 +107,15 @@ class _Currencyconvertermaterialpagestate extends State<CurrencyConverterMateria
                 ),
                 // onSubmitted: (value) => result,
               ),
-            ),
-            //button:- there tow type of button here one is usaual like Icon and other is text button
-            //1. Raised , 2.Appears like a text
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 5, 20, 4),
-              //we will elevatedbutton because it give 3 d effect
-              child: TextButton(
+              //button:- there tow type of button here one is usaual like Icon and other is text button
+              //1. Raised , 2.Appears like a text
+              const SizedBox(height: 5),
+              TextButton(
                 onPressed: () {
                   //print(textEditingController) not work because it will print in terminal we want in our app
-                  result = double.parse(textEditingController.text) * 81;
+                  setState(() {
+                    result = double.parse(textEditingController.text) * 81;
+                  });
                   //there are three mode in app 1. debug :- when we are checking or creating
                   //2.release , 3. profile
                   //   if (kDebugMode) {
@@ -140,8 +143,8 @@ class _Currencyconvertermaterialpagestate extends State<CurrencyConverterMateria
                 ),
                 child: const Text('Convert', style: TextStyle(fontSize: 20)),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
