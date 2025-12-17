@@ -1,10 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/global_variable.dart';
+import 'package:shop_app/product_card.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final List<String> filters = const ['All', 'Adidas', 'Nike', 'Bata', 'Puma'];
+  late String detectfilters;
+  @override
+  void initState() {
+    super.initState();
+    detectfilters = filters[0];
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final border = OutlineInputBorder(
+      // borderRadius: BorderRadius.all(
+      //   Radius.elliptical(50, 50),
+
+      // topLeft: Radius.circular(30),
+      //bottomLeft: Radius.circular(30),
+      //topRight: Radius.circular(30),
+      //bottomRight: Radius.circular(30),
+      borderSide: BorderSide(color: Color.fromRGBO(192, 175, 175, 1)),
+      borderRadius: BorderRadius.horizontal(
+        left: Radius.circular(30),
+        //right: Radius.circular(30),
+      ),
+    );
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -15,7 +44,7 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     'Shoes\nCollection',
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
                 // SizedBox(width: 20),
@@ -26,26 +55,85 @@ class HomePage extends StatelessWidget {
                       //Icon is widget here and Icons is class here
                       prefixIcon: Icon(Icons.search),
                       hintText: 'Search',
-                      border: OutlineInputBorder(
-                        // borderRadius: BorderRadius.all(
-                        //   Radius.elliptical(50, 50),
-
-                        // topLeft: Radius.circular(30),
-                        //bottomLeft: Radius.circular(30),
-                        //topRight: Radius.circular(30),
-                        //bottomRight: Radius.circular(30),
-                        borderSide: BorderSide(
-                          color: Color.fromRGBO(225, 225, 225, 1),
-                        ),
-                        borderRadius: BorderRadius.horizontal(
-                          left: Radius.circular(30),
-                          //right: Radius.circular(30),
-                        ),
-                      ),
+                      //we di              d this because we want to override the global theme which was defined in main.dart
+                      border: border,
+                      enabledBorder: border,
+                      focusedBorder: border,
                     ),
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 80,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: filters.length,
+                itemBuilder: (context, index) {
+                  ///SizedBox(height: 100);
+                  final filter = filters[index];
+                  return Container(
+                    //if we wrap with gesturedetector to conatiner it will detect for whole while using it with only chip will only deetct when we click different chip
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    // decoration: BoxDecoration(
+                    //   //color: Colors.grey[300],
+                    //   borderRadius: BorderRadius.circular(20),
+                    // ),
+                    child: GestureDetector(
+                      onTap: () {
+                        //print(1);
+                        setState(() {
+                          detectfilters = filter;
+                        });
+                      },
+                      child: Chip(
+                        padding: EdgeInsets.all(10),
+                        label: Text(filter),
+                        labelStyle: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        side: BorderSide(
+                          color: Color.fromRGBO(202, 214, 216, 0.5),
+                          //width: 1,
+                        ),
+                        backgroundColor: detectfilters == filter
+                            ? Color.fromRGBO(
+                                252,
+                                244,
+                                2,
+                                1,
+                              ) /*Theme.of(context).colorscheme.primary*/
+                            : Color.fromRGBO(238, 241, 241, 0.498),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(30),
+                        ),
+                        //elevation: 20,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            //we did not used sizedbox because we do not know what height should be given because of variable height of image and other stuff so we use expapnded which will eventually auto select height
+            Expanded(
+              child: ListView.builder(
+                //scrollDirection: Axis.vertical,
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  final product = products[index];
+                  return ProductCard(
+                    title: product['title'].toString(),
+                    price: product['price'] as double,
+                    image: product['imageUrl'] as String,
+                    backgroundColor: index % 2 != 0
+                        ? Color.fromRGBO(201, 228, 233, 0.494)
+                        : Color.fromRGBO(221, 241, 252, 1),
+                  );
+                  //Container(
+                  //   //Text('product:[0]['title']'),
+                },
+              ),
             ),
           ],
         ),
