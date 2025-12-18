@@ -40,10 +40,10 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: //HomePage(),
-      ProductDetailsPage(
-        product: products[0],
-      ),
+      home: HomePage(),
+      //ProductDetailsPage(
+      //  product: products[0],
+    
     );
   }
 }

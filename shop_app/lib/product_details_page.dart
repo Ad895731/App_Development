@@ -91,18 +91,19 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 //const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: 
-                  ElevatedButton(
+                  child: ElevatedButton.icon(
                     onPressed: () {},
-                    style: 
-                    ElevatedButton.styleFrom(
+                    style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       minimumSize: Size(double.infinity, 50),
                     ),
-                    
-                   //ButtonStyle(icon: Icons.shopping_cart),
-                    child: 
-                    Text(
+                    icon: Icon(
+                      Icons.shopping_cart,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    //ButtonStyle(icon: Icons.shopping_cart),
+                    label: Text(
                       'Add To Cart',
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
