@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/cart_provider.dart';
+//import 'package:shop_app/global_variable.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final Map<String, Object> product;
@@ -21,6 +24,30 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   //   super.initState();
   //   checksize == widget.product['sizes'];
   // }
+  // onTap is out of the build function so that if we are out side of build function we should use listen:false
+  void ontap() {
+    if (checksize != 0) {
+      Provider.of<CartProvider>
+          //listen:false means we are not listening to changes in the cart provider
+          //buildcontext here is exact is exact same as build context down and this is because it is provided by state class which is present in StatefulWidget
+          (context, listen: false)
+          .addProduct({
+            'id': widget.product['id'],
+            'title': widget.product['title'],
+            'price': widget.product[ /*'\$$'price''*/ 'price'],
+            'imageUrl': widget.product['imageUrl'],
+            'company': widget.product['company'],
+            'size': checksize,
+          });
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Added to cart!')));
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Please select the size!')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +66,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           Spacer(),
           Padding(
             padding: const EdgeInsets.all(17.0),
-            child: Image.asset(widget.product['imageUrl'] as String),
+            child: Image.asset(
+              widget.product['imageUrl'] as String,
+              height: 250,
+            ),
           ),
           Spacer(flex: 2),
           Container(
@@ -92,10 +122,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: ontap,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
-                      minimumSize: Size(double.infinity, 50),
+                      fixedSize: Size(350, 50),
                     ),
                     icon: Icon(
                       Icons.shopping_cart,
