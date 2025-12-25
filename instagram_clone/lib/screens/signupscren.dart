@@ -3,21 +3,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone/utils/color.dart';
 import 'package:instagram_clone/widgets/Text_field.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class Signupscreen extends StatefulWidget {
+  const Signupscreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<Signupscreen> createState() => _SignupscreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupscreenState extends State<Signupscreen> {
   //why _emailcontroller is private? to prevent other classes from accessing it directly
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _usernamecontroller = TextEditingController();
   @override
   //dispose method is used to dispose the controllers when the widget is removed from the widget tree to free up resources
   void dispose() {
     super.dispose();
+    _emailcontroller.dispose();
+    _passwordcontroller.dispose();
     _emailcontroller.dispose();
     _passwordcontroller.dispose();
   }
@@ -44,6 +48,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 64,
               ),
               const SizedBox(height: 64),
+              //stack for profile photo
+              Stack(
+                children: [
+                  CircleAvatar(
+                    
+                  )
+                ],
+              )
+              //text field input for username
+              TextFieldInput(
+                hintText: 'Enter your username',
+                textInputType: TextInputType.text,
+                textEditingController: _usernamecontroller,
+              ),
+              const SizedBox(height: 24),
+              //text field input for bio
+              TextFieldInput(
+                hintText: 'Enter your bio',
+                textInputType: TextInputType.text,
+                textEditingController: _bioController,
+              ),
+              const SizedBox(height: 24),
               //text field input for email
               TextFieldInput(
                 hintText: 'Enter your email',
@@ -61,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 24),
               //button for login
+              //diffrence between gesturedetector and InkWell is InkWell has a splash effect when tapped and gesturedetector does not have a splash effect when tapped
               InkWell(
                 onTap: () {},
                 child: Container(
