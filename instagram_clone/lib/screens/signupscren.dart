@@ -1,6 +1,12 @@
+import 'dart:typed_data';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:instagram_clone/resources/auth_method.dart';
 import 'package:instagram_clone/utils/color.dart';
+import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/Text_field.dart';
 
 class Signupscreen extends StatefulWidget {
@@ -16,14 +22,23 @@ class _SignupscreenState extends State<Signupscreen> {
   final TextEditingController _passwordcontroller = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernamecontroller = TextEditingController();
+  // why ? _ is used ? to indicate that the variable is private to the class and why ? is used ? to indicate that the variable is nullable
+  Uint8List? _image;
   @override
   //dispose method is used to dispose the controllers when the widget is removed from the widget tree to free up resources
   void dispose() {
     super.dispose();
     _emailcontroller.dispose();
     _passwordcontroller.dispose();
-    _emailcontroller.dispose();
-    _passwordcontroller.dispose();
+    _usernamecontroller.dispose();
+    _bioController.dispose();
+  }
+
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
   }
 
   @override
@@ -51,11 +66,28 @@ class _SignupscreenState extends State<Signupscreen> {
               //stack for profile photo
               Stack(
                 children: [
-                  CircleAvatar(
-                    
-                  )
+                  _image != null
+                      ? CircleAvatar(
+                          radius: 64,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                      : CircleAvatar(
+                          radius: 64,
+                          backgroundImage: NetworkImage(
+                            'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg',
+                          ),
+                        ),
+                  Positioned(
+                    bottom: -10,
+                    left: 80,
+                    child: IconButton(
+                      icon: Icon(Icons.add_a_photo),
+                      onPressed: selectImage,
+                    ),
+                  ),
                 ],
-              )
+              ),
+              const SizedBox(height: 24),
               //text field input for username
               TextFieldInput(
                 hintText: 'Enter your username',
@@ -89,7 +121,15 @@ class _SignupscreenState extends State<Signupscreen> {
               //button for login
               //diffrence between gesturedetector and InkWell is InkWell has a splash effect when tapped and gesturedetector does not have a splash effect when tapped
               InkWell(
-                onTap: () {},
+                onTap: () async {
+                  String res = await AuthMethod().signUpUser(
+                    email: _emailcontroller.text,
+                    password: _passwordcontroller.text,
+                    username: _usernamecontroller.text,
+                    bio: _bioController.text,
+                  );
+                  print(res);
+                },
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
@@ -99,7 +139,7 @@ class _SignupscreenState extends State<Signupscreen> {
                     borderRadius: BorderRadius.circular(7),
                   ),
                   child: Text(
-                    'Log in',
+                    'Sign up',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
@@ -112,14 +152,14 @@ class _SignupscreenState extends State<Signupscreen> {
                 children: [
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 12),
-                    child: Text("Don't have an account?"),
+                    child: Text("Already have an account?"),
                   ),
                   GestureDetector(
                     onTap: () {},
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: Text(
-                        'Signup',
+                        'Login.',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
