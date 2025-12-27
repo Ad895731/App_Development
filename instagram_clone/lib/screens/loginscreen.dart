@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:instagram_clone/resources/auth_method.dart';
+import 'package:instagram_clone/screens/signupscren.dart';
 import 'package:instagram_clone/utils/color.dart';
+import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/Text_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,12 +17,41 @@ class _LoginScreenState extends State<LoginScreen> {
   //why _emailcontroller is private? to prevent other classes from accessing it directly
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
+  bool _isloading = false;
   @override
   //dispose method is used to dispose the controllers when the widget is removed from the widget tree to free up resources
   void dispose() {
     super.dispose();
     _emailcontroller.dispose();
     _passwordcontroller.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isloading = true;
+    });
+    String res = await AuthMethod().loginUser(
+      email: _emailcontroller.text,
+      password: _passwordcontroller.text,
+    );
+
+    if (res == "success") {
+      showSnackBar("Logged in successfully", context);
+      
+    } else {
+      showSnackBar(res, context); // show actual error
+    }
+    setState(() {
+      _isloading = false;
+    });
+  }
+
+  void navigateToSignup() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const Signupscreen(),
+      ),
+    );
   }
 
   @override
@@ -62,20 +94,28 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 24),
               //button for login
               InkWell(
-                onTap: () {},
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(7),
-                  ),
-                  child: Text(
-                    'Log in',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                  ),
-                ),
+                onTap: loginUser,
+                child: _isloading
+                    ? Center(
+                        child: CircularProgressIndicator(color: primaryColor),
+                      )
+                    : Container(
+                        // ignore: sort_child_properties_last
+                        child: const Text(
+                          'Log in',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
               ),
               //transition to signup screen ? because we are in login screen and we need a way to go to signup screen
               const SizedBox(height: 12),
@@ -88,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text("Don't have an account?"),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: navigateToSignup,
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: Text(

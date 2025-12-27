@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:instagram_clone/responsive/webscreen_layout.dart';
 import 'package:instagram_clone/screens/loginscreen.dart';
 import 'package:instagram_clone/screens/signupscren.dart';
 import 'package:instagram_clone/utils/color.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +25,11 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
+  await Supabase.initialize(
+    url: 'https://zlhuqmmpqxfmbwoqvtmo.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsaHVxbW1wcXhmbWJ3b3F2dG1vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MTExMTgsImV4cCI6MjA4MTk4NzExOH0.QOmZSKtv0McdoPFrvQesNqLGSTEQmDHtZ0GAgU0FkU4',
+  );
 
   runApp(const MyApp());
 }
@@ -43,10 +50,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: mobileBackgroundColor,
       ),
-      home: Signupscreen(), //LoginScreen(), // ResponsiveLayout(
+      home: /*Signupscreen(),*/ LoginScreen(), // ResponsiveLayout(
       //   webscreenlayout: WebscreenLayout(),
       //   mobilescreenlayout: MobilescreenLayout(),
       // ),
+      StreamBuilder(stream: FirebaseAuth.instance.userChanges()),
     );
   }
 }

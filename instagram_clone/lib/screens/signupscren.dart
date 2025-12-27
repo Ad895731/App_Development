@@ -24,6 +24,7 @@ class _SignupscreenState extends State<Signupscreen> {
   final TextEditingController _usernamecontroller = TextEditingController();
   // why ? _ is used ? to indicate that the variable is private to the class and why ? is used ? to indicate that the variable is nullable
   Uint8List? _image;
+  bool _isloading = false;
   @override
   //dispose method is used to dispose the controllers when the widget is removed from the widget tree to free up resources
   void dispose() {
@@ -39,6 +40,27 @@ class _SignupscreenState extends State<Signupscreen> {
     setState(() {
       _image = im;
     });
+  }
+
+  void signUpUser() async {
+    setState(() {
+      _isloading = true;
+    });
+    String res = await AuthMethod().signUpUser(
+      email: _emailcontroller.text,
+      password: _passwordcontroller.text,
+      username: _usernamecontroller.text,
+      bio: _bioController.text,
+      file: _image!,
+    );
+    setState(() {
+        _isloading = false;
+      });
+    if (res != "success") {
+      
+      // ignore: use_build_context_synchronously
+      showSnackBar(res, context);
+    }
   }
 
   @override
@@ -121,28 +143,27 @@ class _SignupscreenState extends State<Signupscreen> {
               //button for login
               //diffrence between gesturedetector and InkWell is InkWell has a splash effect when tapped and gesturedetector does not have a splash effect when tapped
               InkWell(
-                onTap: () async {
-                  String res = await AuthMethod().signUpUser(
-                    email: _emailcontroller.text,
-                    password: _passwordcontroller.text,
-                    username: _usernamecontroller.text,
-                    bio: _bioController.text,
-                  );
-                  print(res);
+                onTap: () {
+                  signUpUser();
                 },
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(7),
-                  ),
-                  child: Text(
-                    'Sign up',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                  ),
-                ),
+                child: _isloading
+                    ? CircularProgressIndicator()
+                    : Container(
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Text(
+                          'Sign up',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
               ),
               //transition to signup screen ? because we are in login screen and we need a way to go to signup screen
               const SizedBox(height: 12),
