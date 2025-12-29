@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone/resources/auth_method.dart';
+import 'package:instagram_clone/responsive/mobilescreen_layout.dart';
+import 'package:instagram_clone/responsive/responsive_layout_screen.dart';
+import 'package:instagram_clone/responsive/webscreen_layout.dart';
 import 'package:instagram_clone/screens/signupscren.dart';
 import 'package:instagram_clone/utils/color.dart';
 import 'package:instagram_clone/utils/utils.dart';
@@ -34,10 +37,17 @@ class _LoginScreenState extends State<LoginScreen> {
       email: _emailcontroller.text,
       password: _passwordcontroller.text,
     );
-
+  //here if res == "success" then show success message else show error message here context will be used to show the snackbar 
     if (res == "success") {
       showSnackBar("Logged in successfully", context);
-      
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => ResponsiveLayout(
+                webscreenlayout: WebscreenLayout(),
+                mobilescreenlayout: MobilescreenLayout(),
+              )
+        ),
+      );
     } else {
       showSnackBar(res, context); // show actual error
     }

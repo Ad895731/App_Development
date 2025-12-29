@@ -2,12 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/provider/user_provider.dart';
 import 'package:instagram_clone/responsive/mobilescreen_layout.dart';
 import 'package:instagram_clone/responsive/responsive_layout_screen.dart';
 import 'package:instagram_clone/responsive/webscreen_layout.dart';
 import 'package:instagram_clone/screens/loginscreen.dart';
 import 'package:instagram_clone/screens/signupscren.dart';
 import 'package:instagram_clone/utils/color.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -40,21 +42,48 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      //this the banner that shows up in the top of the app
-      debugShowCheckedModeBanner: false,
-      //title here means the name of the app or title of the app
-      title: 'Instagram Clone',
-      //theme here means the overall look of the app
-      //copyWith means we are copying the dark theme and changing the scaffoldBackgroundColor
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: mobileBackgroundColor,
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => UserProvider()..refreshUser(),),],
+      child: MaterialApp(
+        //this the banner that shows up in the top of the app
+        debugShowCheckedModeBanner: false,
+        //title here means the name of the app or title of the app
+        title: 'Instagram Clone',
+        //theme here means the overall look of the app
+        //copyWith means we are copying the dark theme and changing the scaffoldBackgroundColor
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: mobileBackgroundColor,
+        ),
+        // home: /*Signupscreen(),*/ LoginScreen(), // ResponsiveLayout(
+        //   webscreenlayout: WebscreenLayout(),
+        //   mobilescreenlayout: MobilescreenLayout(),
+        // ),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          //snapshot means the current state of the stream which denote whether the user is logged in or not
+          builder: (context, snapshot) {
+            //snapshot.connectionState means the current connection state of the stream , active means the stream is active and has data means the user is logged in and we have user data , haserror means there is an error in the stream and user is not logged in
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                return ResponsiveLayout(
+                  webscreenlayout: WebscreenLayout(),
+                  mobilescreenlayout: MobilescreenLayout(),
+                );
+              }
+              // why .hasError because if there is an error in the stream we want to show the error message to the user
+              else if (snapshot.hasError) {
+                return Center(child: Text('${snapshot.error}'));
+              }
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(color: primaryColor),
+              );
+            }
+            // If the connection state is neither active nor waiting, return a login screen
+            return LoginScreen();
+          },
+        ),
       ),
-      home: /*Signupscreen(),*/ LoginScreen(), // ResponsiveLayout(
-      //   webscreenlayout: WebscreenLayout(),
-      //   mobilescreenlayout: MobilescreenLayout(),
-      // ),
-      StreamBuilder(stream: FirebaseAuth.instance.userChanges()),
     );
   }
 }

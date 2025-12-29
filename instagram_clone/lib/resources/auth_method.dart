@@ -5,12 +5,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/resources/storage_method.dart';
+import 'package:instagram_clone/models/user.dart' as model;
 
 class AuthMethod {
   //FirebaseAuth is a class that provides methods for authenticating users and managing their accounts. _auth is an instance of FirebaseAuth.which will help us to interact with Firebase Authentication.
   final FirebaseAuth _auth = FirebaseAuth.instance;
   //FirebaseFirestore is a class that provides methods for interacting with Cloud Firestore, a NoSQL document database. _firestore is an instance of FirebaseFirestore which will help us to interact with the Firestore database.
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  Future<model.User> getUserDetails() async {
+    User currentUser = _auth.currentUser!;
+    DocumentSnapshot snap = await _firestore.collection('users').doc(currentUser.uid).get();
+    return model.User.fromSnap(snap);
+  }
   //sign up user
   //here we used future because we want to return a string value after the user is signed up , future is used when we want to perform asynchronous operations , asynchronous ?
   Future<String> signUpUser({
@@ -38,15 +44,19 @@ class AuthMethod {
         print(cred.user!.uid);
         // add user to our database
         String photoUrl = await StorageMethods().uploadProfilePic(file);
-        await _firestore.collection('users').doc(cred.user!.uid).set({
-          'photoUrl': photoUrl,
-          'username': username,
-          'uid': cred.user!.uid,
-          'bio': bio,
-          'email': email,
-          'followers': [],
-          'following': [],
-        });
+        model.User user = model.User(
+          username: username,
+          uid: cred.user!.uid,
+          email: email,
+          bio: bio,
+          photoUrl: photoUrl,
+          followers: [],
+          following: [],
+        );
+        await _firestore
+            .collection('users')
+            .doc(cred.user!.uid)
+            .set(user.toJson());
         res = "success";
       }
     }

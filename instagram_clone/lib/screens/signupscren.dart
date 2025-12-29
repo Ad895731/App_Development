@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/resources/auth_method.dart';
+import 'package:instagram_clone/responsive/mobilescreen_layout.dart';
+import 'package:instagram_clone/responsive/responsive_layout_screen.dart';
+import 'package:instagram_clone/responsive/webscreen_layout.dart';
+import 'package:instagram_clone/screens/loginscreen.dart';
 import 'package:instagram_clone/utils/color.dart';
 import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/Text_field.dart';
@@ -54,13 +58,29 @@ class _SignupscreenState extends State<Signupscreen> {
       file: _image!,
     );
     setState(() {
-        _isloading = false;
-      });
+      _isloading = false;
+    });
     if (res != "success") {
-      
       // ignore: use_build_context_synchronously
       showSnackBar(res, context);
     }
+    else{
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => ResponsiveLayout(
+                webscreenlayout: WebscreenLayout(),
+                mobilescreenlayout: MobilescreenLayout(),
+              )
+        ),
+      );
+    }
+  }
+
+  void navigateTologin() {
+    //pop?
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
   @override
@@ -176,7 +196,7 @@ class _SignupscreenState extends State<Signupscreen> {
                     child: Text("Already have an account?"),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: navigateTologin,
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: Text(
