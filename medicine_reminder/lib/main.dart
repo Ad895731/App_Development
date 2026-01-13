@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:medicine_reminder/models/medicine.dart';
+import 'package:medicine_reminder/providers/medicine_provider.dart';
+import 'package:medicine_reminder/screens/home_screen.dart';
+import 'package:medicine_reminder/services/notification_service.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(MedicineAdapter());
+  await NotificationService.init();
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => MedicineProvider()..loadMedicines(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +36,7 @@ class MyApp extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.teal,
+            backgroundColor: Colors.orange,
             foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -29,11 +44,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Medicine Reminder App', style: TextStyle(fontSize: 22)),
-        ),
-      ),
+      home: HomeScreen(),
     );
   }
 }
