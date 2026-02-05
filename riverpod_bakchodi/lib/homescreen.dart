@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_bakchodi/main.dart';
+import 'package:riverpod_bakchodi/user.dart';
 import 'providers.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -32,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Consumer(
           builder: (context, ref, child) {
-            final name = ref.watch(nameProvider) ?? '';
+            //final user = ref.watch(userProvider);
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -41,12 +42,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   '$_counter',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
-                TextField(
-                  onSubmitted: (value) {
-                    ref.read(nameProvider.notifier).state = value;
-                  },
-                ),
-                Text(name),
+                // TextField(
+                //   onSubmitted: (value) {
+                //     ref.read(userProvider.notifier).updateName(value, user.age);
+                //   },
+                // ),
+               // Text(user.name),
+                // TextField(
+                //   onSubmitted: (values) {
+                //     ref
+                //         .read(userProvider.notifier)
+                //         .updateName(user.name, int.parse(values));
+                //   },
+                // ),
+                // Text(user.age.toString()),
               ],
             );
           },

@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:riverpod_bakchodi/homescreen.dart';
+import 'package:riverpod_bakchodi/user.dart';
 
-//ProviderS
+//Providers
 // Provider
 //StateProvider
-final nameProvider = StateProvider<String?>((ref) => null);
+//StateNotifier and StateNotifierProvider
+//ChangeNotifier and ChangeNotifierProvider
+// future provider
+
+
+// final userProvider = StateNotifierProvider<UserNotifier, User>(
+//   (ref) => UserNotifier(User(name: '', age: 0)),
+// );
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
