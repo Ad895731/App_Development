@@ -24,48 +24,104 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //final name = ref.watch(nameProvider);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
+    return  Scaffold(
       body: Center(
-        child: Consumer(
-          builder: (context, ref, child) {
-            //final user = ref.watch(userProvider);
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('You have pushed the button this many times:'),
-                Text(
-                  '$_counter',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                // TextField(
-                //   onSubmitted: (value) {
-                //     ref.read(userProvider.notifier).updateName(value, user.age);
-                //   },
-                // ),
-               // Text(user.name),
-                // TextField(
-                //   onSubmitted: (values) {
-                //     ref
-                //         .read(userProvider.notifier)
-                //         .updateName(user.name, int.parse(values));
-                //   },
-                // ),
-                // Text(user.age.toString()),
-              ],
-            );
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
+        child: Consumer(builder: (context, ref ,child) {
+          return
+          ref.watch(streamProvider).when(
+            data: (data) {
+              return Text('Stream data: $data');
+            },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stackTrace) => Text('Error: $error'),
+      );
+    })));
+    // return Consumer(
+    //   builder: (context, ref, child) {
+    //     return ref 
+    //         .watch(fetchUserProvider)
+    //         .when(
+    //           data: (user) {
+    //             return Scaffold(
+    //               appBar: AppBar(
+    //                 backgroundColor: Theme.of(
+    //                   context,
+    //                 ).colorScheme.inversePrimary,
+    //                 title: Text(widget.title),
+    //               ),
+    //               body: Center(
+    //                 child: Column(
+    //                   mainAxisAlignment: MainAxisAlignment.center,
+    //                   children: <Widget>[
+    //                     const Text(
+    //                       'You have pushed the button this many times:',
+    //                     ),
+    //                     Text(
+    //                       '$_counter',
+    //                       style: Theme.of(context).textTheme.headlineMedium,
+    //                     ),
+    //                     Text(user.name),
+    //                     Text(user.age.toString()),
+    //                   ],
+    //                 ),
+    //               ),
+    //               floatingActionButton: FloatingActionButton(
+    //                 onPressed: _incrementCounter,
+    //                 tooltip: 'Increment',
+    //                 child: const Icon(Icons.add),
+    //               ),
+    //             );
+    //           },
+    //           error: (error, stackTrace) {
+    //             return Center(child: Text(error.toString()));
+    //           },
+    //           loading: () {
+    //             return const Center(child: CircularProgressIndicator());
+    //           },
+    //         );
+    //   },
+    // );
+    // // return Scaffold(
+    // //   appBar: AppBar(
+    // //     backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+    // //     title: Text(widget.title),
+    // //   ),
+    // //   body: Center(
+    // //     child: Consumer(
+    // //       builder: (context, ref, child) {
+    // //         //final user = ref.watch(userProvider);
+    // //         return Column(
+    // //           mainAxisAlignment: MainAxisAlignment.center,
+    // //           children: <Widget>[
+    // //             const Text('You have pushed the button this many times:'),
+    // //             Text(
+    // //               '$_counter',
+    // //               style: Theme.of(context).textTheme.headlineMedium,
+    // //             ),
+    // //             // TextField(
+    // //             //   onSubmitted: (value) {
+    // //             //     ref.read(userProvider.notifier).updateName(value, user.age);
+    // //             //   },
+    // //             // ),
+    // //            // Text(user.name),
+    // //             // TextField(
+    // //             //   onSubmitted: (values) {
+    // //             //     ref
+    // //             //         .read(userProvider.notifier)
+    // //             //         .updateName(user.name, int.parse(values));
+    // //             //   },
+    // //             // ),
+    // //             // Text(user.age.toString()),
+    // //           ],
+    // //         );
+    // //       },
+    // //     ),
+    // //   ),
+    // //   floatingActionButton: FloatingActionButton(
+    // //     onPressed: _incrementCounter,
+    // //     tooltip: 'Increment',
+    // //     child: const Icon(Icons.add),
+    // //   ),
+    // // );
   }
 }
